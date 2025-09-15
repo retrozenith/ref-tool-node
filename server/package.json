@@ -1,7 +1,27 @@
 {
-  "name": "server",
-  "version": "0.1.0",
-  "private": true,
+  "name": "referee-report-generator",
+  "version": "1.0.0",
+  "private": false,
+  "description": "A professional PDF-powered web application for generating referee reports across different youth football age categories",
+  "author": "Florian Victor Cristea <florianvictorcristea@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retrozenith/ref-tool-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/retrozenith/ref-tool-node/issues"
+  },
+  "homepage": "https://github.com/retrozenith/ref-tool-node#readme",
+  "keywords": [
+    "pdf",
+    "referee",
+    "sports",
+    "football",
+    "report-generator",
+    "next.js",
+    "typescript"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",

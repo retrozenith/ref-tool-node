@@ -1,0 +1,40 @@
+{
+  "name": "ref-tool-node",
+  "version": "1.0.0",
+  "description": "A professional PDF-powered web application for generating referee reports across different youth football age categories (U9, U11, U13, U15)",
+  "main": "server/app/page.tsx",
+  "scripts": {
+    "dev": "cd server && pnpm dev",
+    "build": "cd server && pnpm build",
+    "start": "cd server && pnpm start",
+    "lint": "cd server && pnpm lint",
+    "install-deps": "cd server && pnpm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retrozenith/ref-tool-node.git"
+  },
+  "keywords": [
+    "pdf",
+    "referee",
+    "sports",
+    "football",
+    "report-generator",
+    "next.js",
+    "typescript",
+    "pdf-lib",
+    "youth-sports"
+  ],
+  "author": "Florian Victor Cristea <florianvictorcristea@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/retrozenith/ref-tool-node/issues"
+  },
+  "homepage": "https://github.com/retrozenith/ref-tool-node#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "workspaces": [
+    "server"
+  ]
+}
