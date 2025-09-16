@@ -66,15 +66,11 @@ A professional PDF-powered web application for generating referee reports across
 
 3. **Install dependencies**
    ```bash
-   pnpm install
-   # or
    npm install
    ```
 
 4. **Start development server**
    ```bash
-   pnpm dev
-   # or
    npm run dev
    ```
 
