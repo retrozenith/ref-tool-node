@@ -4,11 +4,11 @@
   "description": "A professional PDF-powered web application for generating referee reports across different youth football age categories (U9, U11, U13, U15)",
   "main": "server/app/page.tsx",
   "scripts": {
-    "dev": "cd server && pnpm dev",
-    "build": "cd server && pnpm build",
-    "start": "cd server && pnpm start",
-    "lint": "cd server && pnpm lint",
-    "install-deps": "cd server && pnpm install"
+    "dev": "cd server && npm run dev",
+    "build": "cd server && npm run build",
+    "start": "cd server && npm run start",
+    "lint": "cd server && npm run lint",
+    "install-deps": "cd server && npm install"
   },
   "repository": {
     "type": "git",
