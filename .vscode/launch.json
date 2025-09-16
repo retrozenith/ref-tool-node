@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Server (pnpm dev)",
-            "runtimeExecutable": "pnpm",
+            "name": "Launch Server (npm dev)",
+            "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "dev"
             ],
