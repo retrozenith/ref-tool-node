@@ -23,7 +23,7 @@
     "typescript"
   ],
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
