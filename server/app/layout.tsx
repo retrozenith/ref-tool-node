@@ -22,6 +22,10 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" }
   ],
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  }
 };
 
 export default function RootLayout({

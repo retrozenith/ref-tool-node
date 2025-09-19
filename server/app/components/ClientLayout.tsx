@@ -17,9 +17,11 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         // Pre-fetch font and all known templates to seed the SW cache
         const templates = ['/reports/referee_template_u9.pdf', '/reports/referee_template_u11.pdf', '/reports/referee_template_u13.pdf', '/reports/referee_template_u15.pdf'];
         const fontUrl = '/fonts/Roboto-Medium.ttf';
+        const favicon = '/favicon.ico';
         await Promise.allSettled([
-          fetch(fontUrl, { cache: 'no-store' }),
-          ...templates.map(t => fetch(t, { cache: 'no-store' })),
+          fetch(fontUrl),
+          ...templates.map(t => fetch(t)),
+          fetch(favicon),
         ]);
         warmedUpRef.current = true;
       } catch {
