@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { FileText, Calendar, Clock, Users, Trophy, MapPin, User, Download, Loader2, AlertCircle } from 'lucide-react';
+import { FileText, Calendar, Trophy, MapPin, User, Download, Loader2, AlertCircle } from 'lucide-react';
+import { GitHubLink } from './components/GitHubLink';
 
 export default function App() {
   const [form, setForm] = useState({
@@ -21,7 +22,6 @@ export default function App() {
 
   // Field visibility and required logic
   const age = form.age_category;
-  const isU9 = age === "U9";
   const isU11 = age === "U11";
   const isU13 = age === "U13";
   const isU15 = age === "U15";
@@ -76,37 +76,37 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-800 rounded-lg shadow-sm mb-4">
-            <FileText className="w-10 h-10 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-lg shadow-sm mb-4">
+            <FileText className="w-10 h-10 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-semibold text-gray-900 mb-3">
+          <h1 className="text-3xl font-semibold text-foreground mb-3">
             Generator Raport de Arbitraj
           </h1>
-          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
             Sistem profesional pentru generarea rapoartelor de arbitraj în format PDF
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <form onSubmit={handleSubmit} className="divide-y divide-gray-200">
+        <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+          <form onSubmit={handleSubmit} className="divide-y divide-border">
             
             {/* Basic Information Section */}
             <div className="p-6 space-y-6">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded">
-                  <User className="w-4 h-4 text-slate-600" />
+                <div className="flex items-center justify-center w-8 h-8 bg-muted rounded">
+                  <User className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <h2 className="text-lg font-medium text-gray-900">Informații de bază</h2>
+                <h2 className="text-lg font-medium text-foreground">Informații de bază</h2>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Referee Name 1 */}
                 <div className="space-y-2">
-                  <label htmlFor="referee_name_1" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="referee_name_1" className="block text-sm font-medium text-foreground">
                     Nume Arbitru Principal *
                   </label>
                   <input
@@ -117,14 +117,14 @@ export default function App() {
                     onChange={handleChange}
                     required
                     placeholder="Introduceți numele arbitrului principal"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                   />
                 </div>
 
                 {/* Referee Name 2 - U11/U13 only */}
                 {(isU11 || isU13) && (
                   <div className="space-y-2">
-                    <label htmlFor="referee_name_2" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="referee_name_2" className="block text-sm font-medium text-foreground">
                       Nume Arbitru Secundar *
                     </label>
                     <input
@@ -135,14 +135,14 @@ export default function App() {
                       onChange={handleChange}
                       required
                       placeholder="Introduceți numele arbitrului secundar"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                      className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                     />
                   </div>
                 )}
 
                 {/* Age Category */}
                 <div className="space-y-2">
-                  <label htmlFor="age_category" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="age_category" className="block text-sm font-medium text-foreground">
                     Categorie de Vârstă *
                   </label>
                   <select
@@ -151,7 +151,7 @@ export default function App() {
                     value={form.age_category}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 bg-white"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground"
                   >
                     <option value="">Selectați categoria de vârstă</option>
                     <option value="U9">U9 - Sub 9 ani</option>
@@ -164,18 +164,18 @@ export default function App() {
             </div>
 
             {/* Match Information Section */}
-            <div className="p-6 bg-gray-50 space-y-6">
+            <div className="p-6 bg-muted/30 space-y-6">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded">
-                  <Calendar className="w-4 h-4 text-slate-600" />
+                <div className="flex items-center justify-center w-8 h-8 bg-muted rounded">
+                  <Calendar className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <h2 className="text-lg font-medium text-gray-900">Informații meci</h2>
+                <h2 className="text-lg font-medium text-foreground">Informații meci</h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Match Date */}
                 <div className="space-y-2">
-                  <label htmlFor="match_date" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="match_date" className="block text-sm font-medium text-foreground">
                     Data Meciului *
                   </label>
                   <input
@@ -185,13 +185,13 @@ export default function App() {
                     value={form.match_date}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground"
                   />
                 </div>
 
                 {/* Starting Hour */}
                 <div className="space-y-2">
-                  <label htmlFor="starting_hour" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="starting_hour" className="block text-sm font-medium text-foreground">
                     Ora de Începere *
                   </label>
                   <input
@@ -201,13 +201,13 @@ export default function App() {
                     value={form.starting_hour}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground"
                   />
                 </div>
 
                 {/* Team 1 */}
                 <div className="space-y-2">
-                  <label htmlFor="team_1" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="team_1" className="block text-sm font-medium text-foreground">
                     Echipa Gazdă *
                   </label>
                   <input
@@ -218,13 +218,13 @@ export default function App() {
                     onChange={handleChange}
                     required
                     placeholder="Introduceți numele echipei gazdă"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                   />
                 </div>
 
                 {/* Team 2 */}
                 <div className="space-y-2">
-                  <label htmlFor="team_2" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="team_2" className="block text-sm font-medium text-foreground">
                     Echipa Oaspete *
                   </label>
                   <input
@@ -235,7 +235,7 @@ export default function App() {
                     onChange={handleChange}
                     required
                     placeholder="Introduceți numele echipei oaspete"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                   />
                 </div>
               </div>
@@ -243,18 +243,18 @@ export default function App() {
 
             {/* U15+ Additional Information */}
             {isU15 && (
-              <div className="p-6 bg-slate-50 space-y-6">
+              <div className="p-6 bg-muted/20 space-y-6">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded">
-                    <Trophy className="w-4 h-4 text-slate-600" />
+                  <div className="flex items-center justify-center w-8 h-8 bg-muted rounded">
+                    <Trophy className="w-4 h-4 text-muted-foreground" />
                   </div>
-                  <h2 className="text-lg font-medium text-gray-900">Informații suplimentare (U15+)</h2>
+                  <h2 className="text-lg font-medium text-foreground">Informații suplimentare (U15+)</h2>
                 </div>
 
                 <div className="space-y-6">
                   {/* Competition */}
                   <div className="space-y-2">
-                    <label htmlFor="competition" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="competition" className="block text-sm font-medium text-foreground">
                       Competiție
                     </label>
                     <input
@@ -264,14 +264,14 @@ export default function App() {
                       value={form.competition}
                       onChange={handleChange}
                       placeholder="Introduceți numele competiției"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                      className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                     />
                   </div>
 
                   {/* Assistant Referees */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label htmlFor="assistant_referee_1" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="assistant_referee_1" className="block text-sm font-medium text-foreground">
                         Arbitru Asistent 1
                       </label>
                       <input
@@ -281,11 +281,11 @@ export default function App() {
                         value={form.assistant_referee_1}
                         onChange={handleChange}
                         placeholder="Numele arbitrului asistent 1"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                        className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="assistant_referee_2" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="assistant_referee_2" className="block text-sm font-medium text-foreground">
                         Arbitru Asistent 2
                       </label>
                       <input
@@ -295,14 +295,14 @@ export default function App() {
                         value={form.assistant_referee_2}
                         onChange={handleChange}
                         placeholder="Numele arbitrului asistent 2"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                        className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                       />
                     </div>
                   </div>
 
                   {/* Fourth Official */}
                   <div className="space-y-2">
-                    <label htmlFor="fourth_official" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="fourth_official" className="block text-sm font-medium text-foreground">
                       Al 4-lea Oficial
                     </label>
                     <input
@@ -312,19 +312,19 @@ export default function App() {
                       value={form.fourth_official}
                       onChange={handleChange}
                       placeholder="Numele celui de-al 4-lea oficial"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                      className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                     />
                   </div>
 
                   {/* Stadium Information */}
-                  <div className="bg-white p-4 rounded-md border border-gray-200">
-                    <h3 className="flex items-center text-base font-medium text-gray-900 mb-4">
-                      <MapPin className="w-4 h-4 mr-2 text-gray-600" />
+                  <div className="bg-card p-4 rounded-md border border-border">
+                    <h3 className="flex items-center text-base font-medium text-foreground mb-4">
+                      <MapPin className="w-4 h-4 mr-2 text-muted-foreground" />
                       Informații stadion
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label htmlFor="stadium_name" className="text-sm font-medium text-gray-700">
+                        <label htmlFor="stadium_name" className="text-sm font-medium text-foreground">
                           Nume Stadion
                         </label>
                         <input
@@ -334,11 +334,11 @@ export default function App() {
                           value={form.stadium_name}
                           onChange={handleChange}
                           placeholder="Numele stadionului"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                          className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="stadium_locality" className="text-sm font-medium text-gray-700">
+                        <label htmlFor="stadium_locality" className="text-sm font-medium text-foreground">
                           Localitatea Stadionului
                         </label>
                         <input
@@ -348,7 +348,7 @@ export default function App() {
                           value={form.stadium_locality}
                           onChange={handleChange}
                           placeholder="Localitatea stadionului"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors text-gray-900 placeholder-gray-400"
+                          className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
                         />
                       </div>
                     </div>
@@ -360,12 +360,12 @@ export default function App() {
             {/* Error Display */}
             {error && (
               <div className="p-6">
-                <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4">
                   <div className="flex items-center space-x-3">
-                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                     <div>
-                      <h3 className="text-sm font-medium text-red-800">Eroare</h3>
-                      <p className="text-sm text-red-700 mt-1">{error}</p>
+                      <h3 className="text-sm font-medium text-destructive">Eroare</h3>
+                      <p className="text-sm text-destructive/80 mt-1">{error}</p>
                     </div>
                   </div>
                 </div>
@@ -373,12 +373,12 @@ export default function App() {
             )}
 
             {/* Submit Button */}
-            <div className="p-6 bg-gray-50">
+            <div className="p-6 bg-muted/30">
               <div className="flex justify-center">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex items-center px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-md shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-slate-500 focus:outline-none"
+                  className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-md shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-ring focus:outline-none"
                 >
                   {loading ? (
                     <>
@@ -394,7 +394,7 @@ export default function App() {
                 </button>
               </div>
               
-              <p className="text-center text-sm text-gray-500 mt-4">
+              <p className="text-center text-sm text-muted-foreground mt-4">
                 Documentul va fi generat și descărcat automat în format PDF
               </p>
             </div>
@@ -403,9 +403,10 @@ export default function App() {
 
         {/* Footer */}
         <div className="text-center mt-12">
-          <p className="text-gray-500 text-sm">
+          <p className="text-muted-foreground text-sm">
             Acest instrument a fost realizat de Cristea Florian Victor pentru fiecare arbitru AJF Ilfov. Verificați mereu corectitudinea rapoartelor generate de acest program web.
           </p>
+          <GitHubLink />
         </div>
       </div>
     </div>
