@@ -2,9 +2,26 @@
 import React, { useState } from 'react';
 import { FileText, Calendar, Trophy, MapPin, User, Download, Loader2, AlertCircle } from 'lucide-react';
 import { GitHubLink } from './components/GitHubLink';
+import { generateReportClient, AgeCategory, FormData as ClientFormData } from '@/lib/pdf-client';
+
+type UiForm = {
+  referee_name_1: string;
+  referee_name_2: string;
+  match_date: string;
+  starting_hour: string;
+  team_1: string;
+  team_2: string;
+  competition: string;
+  assistant_referee_1: string;
+  assistant_referee_2: string;
+  fourth_official: string;
+  age_category: string; // will be narrowed before submit
+  stadium_name: string;
+  stadium_locality: string;
+};
 
 export default function App() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UiForm>({
     referee_name_1: "",
     referee_name_2: "",
     match_date: "",
@@ -33,43 +50,73 @@ export default function App() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const downloadBlob = (blob: Blob, filename: string) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/generate-report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (response.ok) {
-        const blob = await response.blob();
-        
-        // Extract filename from Content-Disposition header
-        const contentDisposition = response.headers.get('Content-Disposition');
-        let filename = "referee_report.pdf"; // fallback
-        
-        if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-          if (filenameMatch && filenameMatch[1]) {
-            filename = filenameMatch[1].replace(/['"]/g, ''); // Remove quotes
-          }
-        }
-        
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      } else {
-        const err = await response.json();
-        setError(err.detail || "Error generating report");
+      // Try client-side generation first (works offline)
+      const age = form.age_category as AgeCategory | string;
+      if (age !== 'U9' && age !== 'U11' && age !== 'U13' && age !== 'U15') {
+        throw new Error('Selectați o categorie de vârstă validă.');
       }
-    } catch {
-      setError("Network error");
+      const payload: ClientFormData = {
+        referee_name_1: form.referee_name_1,
+        referee_name_2: form.referee_name_2 || undefined,
+        match_date: form.match_date,
+        starting_hour: form.starting_hour,
+        team_1: form.team_1,
+        team_2: form.team_2,
+        competition: form.competition || undefined,
+        assistant_referee_1: form.assistant_referee_1 || undefined,
+        assistant_referee_2: form.assistant_referee_2 || undefined,
+        fourth_official: form.fourth_official || undefined,
+        age_category: age as AgeCategory,
+        stadium_name: form.stadium_name || undefined,
+        stadium_locality: form.stadium_locality || undefined,
+      };
+      const { blob, filename } = await generateReportClient(payload);
+      downloadBlob(blob, filename);
+      return;
+    } catch (clientErr) {
+      console.warn('Client PDF generation failed, falling back to server API.', clientErr);
+      // Fallback to server API
+      try {
+        const response = await fetch("/api/generate-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          // Extract filename from Content-Disposition header
+          const contentDisposition = response.headers.get('Content-Disposition');
+          let filename = "referee_report.pdf"; // fallback
+          if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+            if (filenameMatch && filenameMatch[1]) {
+              filename = filenameMatch[1].replace(/['"]/g, '');
+            }
+          }
+          downloadBlob(blob, filename);
+        } else {
+          const err = await response.json();
+          setError(err.detail || "Error generating report");
+        }
+      } catch {
+        setError("Network error");
+      }
     } finally {
       setLoading(false);
     }
