@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 import * as fs from 'fs';
 import * as path from 'path';
 import fontkit from '@pdf-lib/fontkit';

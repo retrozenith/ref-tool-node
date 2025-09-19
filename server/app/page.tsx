@@ -68,7 +68,7 @@ export default function App() {
         const err = await response.json();
         setError(err.detail || "Error generating report");
       }
-    } catch (err) {
+    } catch {
       setError("Network error");
     } finally {
       setLoading(false);
