@@ -1,6 +1,13 @@
 import { PDFService, FormData } from '../pdf-service';
 import * as path from 'path';
 
+// Interface to access private static methods for testing
+interface PDFServicePrivate {
+  formatDate(dateString: string, ageCategory: string): string;
+  getTemplatePath(ageCategory: string): string;
+  getOverlays(formData: FormData): Array<{ text: string; x: number; y: number; page: number }>;
+}
+
 describe('PDFService', () => {
   // Test suite for generateFilename
   describe('generateFilename', () => {
@@ -41,15 +48,15 @@ describe('PDFService', () => {
   describe('formatDate', () => {
     it('should format date as DD.MM.YYYY for U15', () => {
       const date = '2023-10-27';
-      const formattedDate = (PDFService as any).formatDate(date, 'U15');
+      const formattedDate = (PDFService as unknown as PDFServicePrivate).formatDate(date, 'U15');
       expect(formattedDate).toBe('27.10.2023');
     });
 
     it('should format date as DD     MM for non-U15 categories', () => {
       const date = '2023-05-01';
-      const formattedDateU9 = (PDFService as any).formatDate(date, 'U9');
-      const formattedDateU11 = (PDFService as any).formatDate(date, 'U11');
-      const formattedDateU13 = (PDFService as any).formatDate(date, 'U13');
+      const formattedDateU9 = (PDFService as unknown as PDFServicePrivate).formatDate(date, 'U9');
+      const formattedDateU11 = (PDFService as unknown as PDFServicePrivate).formatDate(date, 'U11');
+      const formattedDateU13 = (PDFService as unknown as PDFServicePrivate).formatDate(date, 'U13');
 
       expect(formattedDateU9).toBe('01     05');
       expect(formattedDateU11).toBe('01     05');
@@ -62,16 +69,16 @@ describe('PDFService', () => {
     it('should return the correct template path for each age category', () => {
       const basePath = process.cwd();
 
-      const u9Path = (PDFService as any).getTemplatePath('U9');
+      const u9Path = (PDFService as unknown as PDFServicePrivate).getTemplatePath('U9');
       expect(u9Path).toBe(path.join(basePath, 'public', 'reports', 'referee_template_u9.pdf'));
 
-      const u11Path = (PDFService as any).getTemplatePath('U11');
+      const u11Path = (PDFService as unknown as PDFServicePrivate).getTemplatePath('U11');
       expect(u11Path).toBe(path.join(basePath, 'public', 'reports', 'referee_template_u11.pdf'));
 
-      const u13Path = (PDFService as any).getTemplatePath('U13');
+      const u13Path = (PDFService as unknown as PDFServicePrivate).getTemplatePath('U13');
       expect(u13Path).toBe(path.join(basePath, 'public', 'reports', 'referee_template_u13.pdf'));
 
-      const u15Path = (PDFService as any).getTemplatePath('U15');
+      const u15Path = (PDFService as unknown as PDFServicePrivate).getTemplatePath('U15');
       expect(u15Path).toBe(path.join(basePath, 'public', 'reports', 'referee_template_u15.pdf'));
     });
   });
@@ -89,7 +96,7 @@ describe('PDFService', () => {
 
     it('should return correct overlays for U9', () => {
       const formData = { ...baseFormData, age_category: 'U9' as const };
-      const overlays = (PDFService as any).getOverlays(formData);
+      const overlays = (PDFService as unknown as PDFServicePrivate).getOverlays(formData);
 
       expect(overlays).toHaveLength(5);
       expect(overlays).toEqual(expect.arrayContaining([
@@ -103,7 +110,7 @@ describe('PDFService', () => {
 
     it('should return correct overlays for U11/U13', () => {
       const formData = { ...baseFormData, age_category: 'U11' as const, referee_name_2: 'Jane Smith' };
-      const overlays = (PDFService as any).getOverlays(formData);
+      const overlays = (PDFService as unknown as PDFServicePrivate).getOverlays(formData);
 
       expect(overlays).toHaveLength(7);
       expect(overlays).toEqual(expect.arrayContaining([
@@ -128,7 +135,7 @@ describe('PDFService', () => {
         stadium_name: 'Main Stadium',
         stadium_locality: 'City',
       };
-      const overlays = (PDFService as any).getOverlays(formData);
+      const overlays = (PDFService as unknown as PDFServicePrivate).getOverlays(formData);
 
       expect(overlays).toHaveLength(17); // 13 from data + 4 fixed 'Ilfov'
       expect(overlays).toEqual(expect.arrayContaining([
