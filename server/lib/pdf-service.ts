@@ -97,8 +97,8 @@ export class PDFService {
       { text: this.formatDate(formData.match_date, formData.age_category), x: 346, y: 686, page: 0 },
       { text: formData.starting_hour, x: 335, y: 660, page: 0 },
       { text: formData.team_1 + " - " + formData.team_2, x: 101, y: 712, page: 0 },
-      { text: formData.team_1, x: 355, y: 636, page: 0 },
-      { text: formData.team_2, x: 101, y: 636, page: 0 },
+      { text: formData.team_1, x: 101, y: 636, page: 0 },
+      { text: formData.team_2, x: 355, y: 636, page: 0 },
     ];
   }
 
