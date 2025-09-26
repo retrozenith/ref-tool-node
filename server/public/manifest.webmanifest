@@ -1,6 +1,6 @@
 {
-  "name": "Referee Report Generator",
-  "short_name": "Ref Reports",
+  "name": "Generator Raport Arbitri",
+  "short_name": "GRA",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0b0b",
