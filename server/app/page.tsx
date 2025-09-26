@@ -65,12 +65,13 @@ export default function App() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
     try {
-      // Try client-side generation first (works offline)
       const age = form.age_category as AgeCategory | string;
       if (age !== 'U9' && age !== 'U11' && age !== 'U13' && age !== 'U15') {
         throw new Error('Selectați o categorie de vârstă validă.');
       }
+
       const payload: ClientFormData = {
         referee_name_1: form.referee_name_1,
         referee_name_2: form.referee_name_2 || undefined,
@@ -86,37 +87,13 @@ export default function App() {
         stadium_name: form.stadium_name || undefined,
         stadium_locality: form.stadium_locality || undefined,
       };
+
       const { blob, filename } = await generateReportClient(payload);
       downloadBlob(blob, filename);
-      return;
-    } catch (clientErr) {
-      console.warn('Client PDF generation failed, falling back to server API.', clientErr);
-      // Fallback to server API
-      try {
-        const response = await fetch("/api/generate-report", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-        if (response.ok) {
-          const blob = await response.blob();
-          // Extract filename from Content-Disposition header
-          const contentDisposition = response.headers.get('Content-Disposition');
-          let filename = "referee_report.pdf"; // fallback
-          if (contentDisposition) {
-            const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-            if (filenameMatch && filenameMatch[1]) {
-              filename = filenameMatch[1].replace(/['"]/g, '');
-            }
-          }
-          downloadBlob(blob, filename);
-        } else {
-          const err = await response.json();
-          setError(err.detail || "Error generating report");
-        }
-      } catch {
-        setError("Network error");
-      }
+    } catch (err) {
+      console.error('PDF generation failed:', err);
+      const errorMessage = err instanceof Error ? err.message : 'A apărut o eroare necunoscută.';
+      setError(`Eroare la generarea PDF: ${errorMessage}. Asigură-te că ești online prima dată pentru a salva datele necesare.`);
     } finally {
       setLoading(false);
     }
