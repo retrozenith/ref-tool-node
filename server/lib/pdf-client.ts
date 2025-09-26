@@ -31,20 +31,18 @@ const FONT_COLOR = rgb(0, 0, 0);
 
 export async function generateReportClient(formData: FormData): Promise<{ blob: Blob; filename: string }> {
   const templatePath = getTemplatePath(formData.age_category);
-  const fromCacheFirst = async (url: string): Promise<ArrayBuffer> => {
-    // Try Cache Storage first (service worker), then network
-    try {
-      const cache = await caches.open('reports-cache');
-      const cached = await cache.match(url);
-      if (cached) return await cached.arrayBuffer();
-    } catch { /* ignore */ }
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to fetch ${url}`);
-    return await res.arrayBuffer();
-  };
+  // Service worker will intercept these fetches and serve from cache if offline
+  const [templateResponse, fontResponse] = await Promise.all([
+    fetch(templatePath),
+    fetch('/fonts/Roboto-Medium.ttf'),
+  ]);
+
+  if (!templateResponse.ok) throw new Error(`Failed to fetch ${templatePath}`);
+  if (!fontResponse.ok) throw new Error('Failed to fetch font');
+
   const [templateBytes, fontBytes] = await Promise.all([
-    fromCacheFirst(templatePath),
-    fromCacheFirst('/fonts/Roboto-Medium.ttf'),
+    templateResponse.arrayBuffer(),
+    fontResponse.arrayBuffer(),
   ]);
 
   const pdfDoc = await PDFDocument.load(templateBytes);
