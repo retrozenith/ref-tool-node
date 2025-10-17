@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FileText, Calendar, Trophy, MapPin, User, Download, Loader2, AlertCircle } from 'lucide-react';
 import { GitHubLink } from './components/GitHubLink';
+import { TeamAutocomplete } from './components/TeamAutocomplete';
 import { generateReportClient, AgeCategory, FormData as ClientFormData } from '@/lib/pdf-client';
 
 type UiForm = {
@@ -229,39 +230,27 @@ export default function App() {
                   />
                 </div>
 
-                {/* Team 1 */}
-                <div className="space-y-2">
-                  <label htmlFor="team_1" className="block text-sm font-medium text-foreground">
-                    Echipa Gazdă *
-                  </label>
-                  <input
-                    id="team_1"
-                    name="team_1"
-                    type="text"
-                    value={form.team_1}
-                    onChange={handleChange}
-                    required
-                    placeholder="Introduceți numele echipei gazdă"
-                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
-                  />
-                </div>
+                {/* Team 1 - with autocomplete */}
+                <TeamAutocomplete
+                  id="team_1"
+                  name="team_1"
+                  value={form.team_1}
+                  onChange={handleChange}
+                  required
+                  label="Echipa Gazdă"
+                  placeholder="Introduceți numele echipei gazdă"
+                />
 
-                {/* Team 2 */}
-                <div className="space-y-2">
-                  <label htmlFor="team_2" className="block text-sm font-medium text-foreground">
-                    Echipa Oaspete *
-                  </label>
-                  <input
-                    id="team_2"
-                    name="team_2"
-                    type="text"
-                    value={form.team_2}
-                    onChange={handleChange}
-                    required
-                    placeholder="Introduceți numele echipei oaspete"
-                    className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-background text-foreground placeholder-muted-foreground"
-                  />
-                </div>
+                {/* Team 2 - with autocomplete */}
+                <TeamAutocomplete
+                  id="team_2"
+                  name="team_2"
+                  value={form.team_2}
+                  onChange={handleChange}
+                  required
+                  label="Echipa Oaspete"
+                  placeholder="Introduceți numele echipei oaspete"
+                />
               </div>
             </div>
 
