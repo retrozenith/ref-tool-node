@@ -2,6 +2,10 @@
 
 A professional PDF-powered web application for generating referee reports across different youth football age categories (U9, U11, U13, U15).
 
+<p align="center">
+  <img src="favicon.png" alt="Alt text" width="256"/>
+</p>
+
 ## Features
 
 - **Complete PDF Overlay System** using pdf-lib for precise text placement
