@@ -8,6 +8,14 @@ const isDev = process.env.NODE_ENV !== "production";
 
 const baseConfig: NextConfig = {
   reactStrictMode: true,
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  // Configure environment variable for API endpoint
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787',
+  },
 };
 
 export default withPWA({

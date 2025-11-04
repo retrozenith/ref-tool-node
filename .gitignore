@@ -1,2 +1,9 @@
 node_modules/
 .env
+.vercel
+.wrangler
+dist/
+.next/
+out/
+server/.next/
+server/out/

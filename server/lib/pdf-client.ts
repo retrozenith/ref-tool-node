@@ -30,6 +30,32 @@ const FONT_SIZE = 13;
 const FONT_COLOR = rgb(0, 0, 0);
 
 export async function generateReportClient(formData: FormData): Promise<{ blob: Blob; filename: string }> {
+  // Try API first (better performance on Cloudflare Workers)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  
+  if (apiUrl && navigator.onLine) {
+    try {
+      const response = await fetch(`${apiUrl}/api/generate-report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const filename = generateFilename(formData);
+        return { blob, filename };
+      }
+    } catch (err) {
+      console.warn('API generation failed, falling back to client-side:', err);
+    }
+  }
+
+  // Fallback to client-side generation (works offline)
+  return await generateReportClientSide(formData);
+}
+
+async function generateReportClientSide(formData: FormData): Promise<{ blob: Blob; filename: string }> {
   const templatePath = getTemplatePath(formData.age_category);
   // Service worker will intercept these fetches and serve from cache if offline
   const [templateResponse, fontResponse] = await Promise.all([
