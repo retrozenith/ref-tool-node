@@ -8,9 +8,13 @@ name = "gra"
 main = "worker/dist/worker.js"
 type = "javascript"
 compatibility_date = "2025-11-11"
-compatibility_flags = ["nodejs_compat"]
+[compatibility_flags = ["nodejs_compat"]
 
-[workers_dev]
+# Workers dev should be a boolean. Set to true to enable the workers.dev
+# testing subdomain. The previous file mistakenly defined a `[workers_dev]`
+# table which caused a type error in Wrangler.
+workers_dev = true
+
 # Note: custom build removed to avoid running build from the wrong working
 # directory during `wrangler deploy`. The Worker uses the prebuilt bundle at
 # `main = "worker/dist/worker.js"`. Build the bundle before deploying (CI
