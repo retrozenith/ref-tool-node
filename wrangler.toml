@@ -10,15 +10,11 @@ type = "javascript"
 compatibility_date = "2025-11-11"
 compatibility_flags = ["nodejs_compat"]
 
-workers_dev = true
-
-[build]
-# Build command uses the worker package's build script (esbuild)
-command = "npm --prefix ./worker run build"
-
-[build.upload]
-# The worker's build script writes the bundle to worker/dist
-dir = "./worker/dist"
+[workers_dev]
+# Note: custom build removed to avoid running build from the wrong working
+# directory during `wrangler deploy`. The Worker uses the prebuilt bundle at
+# `main = "worker/dist/worker.js"`. Build the bundle before deploying (CI
+# should run `npm --prefix ./worker run build` once and produce `worker/dist`).
 
 [site]
 # Static assets (publicly served) for the worker
