@@ -8,7 +8,6 @@ name = "gra"
 main = "worker/dist/worker.js"
 type = "javascript"
 compatibility_date = "2025-11-11"
-[compatibility_flags = ["nodejs_compat"]
 
 # Workers dev should be a boolean. Set to true to enable the workers.dev
 # testing subdomain. The previous file mistakenly defined a `[workers_dev]`
