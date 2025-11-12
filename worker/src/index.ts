@@ -145,7 +145,7 @@ function validateFormData(formData: FormData): string | null {
   return null;
 }
 
-async function generateReport(formData: FormData, env: Env): Promise<ArrayBuffer> {
+async function generateReport(formData: FormData, env: Env): Promise<Uint8Array> {
   const templatePath = `/reports/referee_template_${formData.age_category.toLowerCase()}.pdf`;
   const overlays = getOverlays(formData);
 
@@ -235,7 +235,7 @@ function formatDate(dateString: string, ageCategory: string): string {
   }
 }
 
-async function applyOverlays(templatePath: string, overlays: TextOverlay[], env: Env): Promise<ArrayBuffer> {
+async function applyOverlays(templatePath: string, overlays: TextOverlay[], env: Env): Promise<Uint8Array> {
   // Fetch template PDF from assets
   const templateResponse = await env.ASSETS.fetch(new Request(`https://dummy.com${templatePath}`));
   if (!templateResponse.ok) {
@@ -287,7 +287,7 @@ async function applyOverlays(templatePath: string, overlays: TextOverlay[], env:
   }
 
   const pdfBytes = await pdfDoc.save();
-  return pdfBytes.buffer;
+  return pdfBytes;
 }
 
 function generateFilename(formData: FormData): string {
